@@ -36,25 +36,52 @@ import java.util.Properties;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobConfiguration {
-    
+
+    /**
+     * 任务名称
+     */
     private final String jobName;
-    
+
+    /**
+     * 定时配置
+     */
     private final String cron;
-    
+
+    /**
+     * 分片总数
+     */
     private final int shardingTotalCount;
-    
+
+    /**
+     * 分片参数
+     */
     private final String shardingItemParameters;
-    
+
+    /**
+     * 任务参数
+     */
     private final String jobParameter;
-    
+
+    /**
+     * 监控标记
+     */
     private final boolean monitorExecution;
-    
+
+    /**
+     * 故障转移标记
+     */
     private final boolean failover;
-    
+
+    /**
+     * 执行失败标记
+     */
     private final boolean misfire;
-    
+
+    /**
+     * 本地时间与注册中心时间直接的最大时间差
+     */
     private final int maxTimeDiffSeconds;
-    
+
     private final int reconcileIntervalMinutes;
     
     private final String jobShardingStrategyType;
@@ -66,17 +93,32 @@ public final class JobConfiguration {
     private final Collection<String> jobListenerTypes;
     
     private final Collection<JobExtraConfiguration> extraConfigurations;
-    
+
+    /**
+     * 描述
+     */
     private final String description;
     
     private final Properties props;
-    
+
+    /**
+     * 是否禁用
+     */
     private final boolean disabled;
-    
+
+    /**
+     * 是否覆盖配置
+     */
     private final boolean overwrite;
-    
+
+    /**
+     * 标签
+     */
     private final String label;
-    
+
+    /**
+     * 是否静态分片
+     */
     private final boolean staticSharding;
     
     /**
@@ -150,6 +192,7 @@ public final class JobConfiguration {
         
         /**
          * Set mapper of sharding items and sharding parameters.
+         * 设置分片项和分片参数
          *
          * <p>
          * sharding item and sharding parameter split by =, multiple sharding items and sharding parameters split by comma, just like map.

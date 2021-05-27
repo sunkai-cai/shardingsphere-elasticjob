@@ -90,7 +90,8 @@ public final class ElasticJobExecutor {
 
     /**
      * Execute job.
-     * 执行任务
+     * 定时任务执行的入口.
+     * 由 LiteJob 引导执行
      */
     public void execute() {
         //获取任务配置

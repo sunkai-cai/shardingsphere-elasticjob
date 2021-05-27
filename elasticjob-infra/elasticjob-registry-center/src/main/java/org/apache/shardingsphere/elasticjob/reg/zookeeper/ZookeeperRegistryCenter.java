@@ -50,6 +50,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Registry center of ZooKeeper.
+ * zookeeper 注册中心
  */
 @Slf4j
 public final class ZookeeperRegistryCenter implements CoordinatorRegistryCenter {
@@ -120,6 +121,7 @@ public final class ZookeeperRegistryCenter implements CoordinatorRegistryCenter 
     /*
      *  // TODO
      * sleep 500ms, let cache client close first and then client, otherwise will throw exception
+     * 休息500毫秒，让缓存客户端先关闭 再关闭当前客户端，否则将抛出异常
      * reference：https://issues.apache.org/jira/browse/CURATOR-157
      */
     private void waitForCacheClose() {

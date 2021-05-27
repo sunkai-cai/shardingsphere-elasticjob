@@ -27,7 +27,8 @@ import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
 
 /**
  * Schedule job bootstrap.
- * 计划任务引导类
+ * 调度任务引导类(入口)
+ * new ScheduleJobBootstrap(..).schedule();
  */
 public final class ScheduleJobBootstrap implements JobBootstrap {
     
@@ -44,6 +45,7 @@ public final class ScheduleJobBootstrap implements JobBootstrap {
     
     /**
      * Schedule job.
+     * 调度任务入口
      */
     public void schedule() {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(jobScheduler.getJobConfig().getCron()), "Cron can not be empty.");

@@ -32,24 +32,27 @@ import org.quartz.TriggerKey;
 
 /**
  * Job schedule controller.
+ * 任务计划控制器，封装了 quartz
  */
 @RequiredArgsConstructor
 public final class JobScheduleController {
-    
+
     private final Scheduler scheduler;
-    
+
     private final JobDetail jobDetail;
-    
+
     private final String triggerIdentity;
-    
+
     /**
      * Schedule job.
-     * 
+     * 启动任务调度
+     *
      * @param cron CRON expression
      */
     public void scheduleJob(final String cron) {
         try {
             if (!scheduler.checkExists(jobDetail.getKey())) {
+                //如果不存在，就绑定一个任务并且指定触发器
                 scheduler.scheduleJob(jobDetail, createCronTrigger(cron));
             }
             scheduler.start();
@@ -57,10 +60,10 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
-    
+
     /**
      * Reschedule job.
-     * 
+     *
      * @param cron CRON expression
      */
     public synchronized void rescheduleJob(final String cron) {
@@ -73,7 +76,7 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
-    
+
     /**
      * Reschedule OneOff job.
      */
@@ -87,14 +90,17 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
-    
+
+    /**
+     * 创建一个触发器(Trigger)
+     */
     private Trigger createCronTrigger(final String cron) {
         return TriggerBuilder.newTrigger().withIdentity(triggerIdentity).withSchedule(CronScheduleBuilder.cronSchedule(cron).withMisfireHandlingInstructionDoNothing()).build();
     }
-    
+
     /**
      * Judge job is pause or not.
-     * 
+     *
      * @return job is pause or not
      */
     public synchronized boolean isPaused() {
@@ -104,7 +110,7 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
-    
+
     /**
      * Pause job.
      */
@@ -117,7 +123,7 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
-    
+
     /**
      * Resume job.
      */
@@ -130,7 +136,7 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
-    
+
     /**
      * Trigger job.
      */
@@ -151,20 +157,21 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
-    
+
     private Trigger createOneOffTrigger() {
         return TriggerBuilder.newTrigger().withIdentity(triggerIdentity).withSchedule(SimpleScheduleBuilder.simpleSchedule()).build();
     }
-    
+
     /**
      * Shutdown scheduler.
      */
     public synchronized void shutdown() {
         shutdown(false);
     }
-    
+
     /**
      * Shutdown scheduler graceful.
+     *
      * @param isCleanShutdown if wait jobs complete
      */
     public synchronized void shutdown(final boolean isCleanShutdown) {
@@ -176,4 +183,5 @@ public final class JobScheduleController {
             throw new JobSystemException(ex);
         }
     }
+
 }

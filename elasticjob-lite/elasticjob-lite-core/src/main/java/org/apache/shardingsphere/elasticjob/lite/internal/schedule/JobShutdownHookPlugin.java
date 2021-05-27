@@ -57,7 +57,10 @@ public final class JobShutdownHookPlugin implements SchedulerPlugin {
     public void start() {
 
     }
-    
+
+    /**
+     * 任务线程关闭
+     */
     @Override
     public void shutdown() {
         CoordinatorRegistryCenter regCenter = JobRegistry.getInstance().getRegCenter(jobName);
@@ -66,8 +69,10 @@ public final class JobShutdownHookPlugin implements SchedulerPlugin {
         }
         LeaderService leaderService = new LeaderService(regCenter, jobName);
         if (leaderService.isLeader()) {
+            //移出Leader
             leaderService.removeLeader();
         }
+        //移出实例
         new InstanceService(regCenter, jobName).removeInstance();
     }
     

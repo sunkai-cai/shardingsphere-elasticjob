@@ -88,7 +88,10 @@ public final class JobScheduler {
     private final LiteJobFacade jobFacade;
     
     private final ElasticJobExecutor jobExecutor;
-    
+
+    /**
+     * 任务调度控制器(核心)
+     */
     @Getter
     private final JobScheduleController jobScheduleController;
     
@@ -150,14 +153,29 @@ public final class JobScheduler {
             }
         }
     }
-    
+
+    /**
+     * 创建任务调度控制器
+     */
     private JobScheduleController createJobScheduleController() {
-        JobScheduleController result = new JobScheduleController(createScheduler(), createJobDetail(), getJobConfig().getJobName());
+        JobScheduleController result = new JobScheduleController(
+                //创建一个调度器
+                createScheduler(),
+                //创建一个任务
+                createJobDetail(),
+                //获取任务的名称
+                getJobConfig().getJobName()
+        );
+        //单例记录
         JobRegistry.getInstance().registerJob(getJobConfig().getJobName(), result);
         registerStartUpInfo();
         return result;
     }
-    
+
+    /**
+     * 创建一个 quartz 的调度器
+     * 注入了 任务失败 监控 和 线程结束 监控
+     */
     private Scheduler createScheduler() {
         Scheduler result;
         try {
@@ -170,7 +188,11 @@ public final class JobScheduler {
         }
         return result;
     }
-    
+
+    /**
+     * quartz 的配置
+     * @return
+     */
     private Properties getQuartzProps() {
         Properties result = new Properties();
         result.put("org.quartz.threadPool.class", SimpleThreadPool.class.getName());
@@ -181,13 +203,21 @@ public final class JobScheduler {
         result.put("org.quartz.plugin.shutdownhook.cleanShutdown", Boolean.TRUE.toString());
         return result;
     }
-    
+
+    /**
+     * quartz 任务的配置
+     * 使用了 LiteJob 做引导
+     * @return
+     */
     private JobDetail createJobDetail() {
         JobDetail result = JobBuilder.newJob(LiteJob.class).withIdentity(getJobConfig().getJobName()).build();
         result.getJobDataMap().put(JOB_EXECUTOR_DATA_MAP_KEY, jobExecutor);
         return result;
     }
-    
+
+    /**
+     * 作用？？？
+     */
     private void registerStartUpInfo() {
         JobRegistry.getInstance().registerRegistryCenter(jobConfig.getJobName(), regCenter);
         JobRegistry.getInstance().addJobInstance(jobConfig.getJobName(), new JobInstance());

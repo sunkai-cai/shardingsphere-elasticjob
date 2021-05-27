@@ -25,23 +25,28 @@ import org.quartz.listeners.TriggerListenerSupport;
 
 /**
  * Job trigger listener.
+ * 任务监听
  */
 @RequiredArgsConstructor
 public final class JobTriggerListener extends TriggerListenerSupport {
-    
+
     private final ExecutionService executionService;
-    
+
     private final ShardingService shardingService;
-    
+
     @Override
     public String getName() {
         return "JobTriggerListener";
     }
-    
+
+    /**
+     * 执行失败监听
+     */
     @Override
     public void triggerMisfired(final Trigger trigger) {
         if (null != trigger.getPreviousFireTime()) {
             executionService.setMisfire(shardingService.getLocalShardingItems());
         }
     }
+
 }
