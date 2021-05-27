@@ -27,12 +27,14 @@ import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
 
 /**
  * Schedule job bootstrap.
+ * 计划任务引导类
  */
 public final class ScheduleJobBootstrap implements JobBootstrap {
     
     private final JobScheduler jobScheduler;
     
     public ScheduleJobBootstrap(final CoordinatorRegistryCenter regCenter, final ElasticJob elasticJob, final JobConfiguration jobConfig) {
+        //创建一个计划任务
         jobScheduler = new JobScheduler(regCenter, elasticJob, jobConfig);
     }
     

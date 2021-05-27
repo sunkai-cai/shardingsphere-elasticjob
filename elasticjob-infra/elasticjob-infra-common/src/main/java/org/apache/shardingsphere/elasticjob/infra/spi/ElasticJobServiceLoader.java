@@ -30,14 +30,15 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * ElasticJob service loader.
+ * ElasticJob 服务的加载和管理
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ElasticJobServiceLoader {
-    
+
     private static final ConcurrentMap<Class<? extends TypedSPI>, ConcurrentMap<String, TypedSPI>> TYPED_SERVICES = new ConcurrentHashMap<>();
-    
+
     private static final ConcurrentMap<Class<? extends TypedSPI>, ConcurrentMap<String, Class<? extends TypedSPI>>> TYPED_SERVICE_CLASSES = new ConcurrentHashMap<>();
-    
+
     /**
      * Register typeSPI service.
      *
@@ -50,12 +51,15 @@ public final class ElasticJobServiceLoader {
         }
         ServiceLoader.load(typedService).forEach(each -> registerTypedServiceClass(typedService, each));
     }
-    
+
+    /**
+     * 注册 typeSPI 服务类
+     */
     private static <T extends TypedSPI> void registerTypedServiceClass(final Class<T> typedService, final TypedSPI instance) {
         TYPED_SERVICES.computeIfAbsent(typedService, unused -> new ConcurrentHashMap<>()).putIfAbsent(instance.getType(), instance);
         TYPED_SERVICE_CLASSES.computeIfAbsent(typedService, unused -> new ConcurrentHashMap<>()).putIfAbsent(instance.getType(), instance.getClass());
     }
-    
+
     /**
      * Get cached typed instance.
      *
@@ -67,7 +71,7 @@ public final class ElasticJobServiceLoader {
     public static <T extends TypedSPI> Optional<T> getCachedTypedServiceInstance(final Class<T> typedServiceInterface, final String type) {
         return Optional.ofNullable(TYPED_SERVICES.get(typedServiceInterface)).map(services -> (T) services.get(type));
     }
-    
+
     /**
      * New typed instance.
      *
@@ -84,7 +88,7 @@ public final class ElasticJobServiceLoader {
         }
         return result;
     }
-    
+
     private static Object newServiceInstance(final Class<?> clazz) {
         try {
             return clazz.getConstructor().newInstance();

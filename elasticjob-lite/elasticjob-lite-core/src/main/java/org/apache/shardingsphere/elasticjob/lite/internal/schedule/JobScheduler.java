@@ -49,25 +49,42 @@ import java.util.stream.Collectors;
 
 /**
  * Job scheduler.
+ * 计划任务(核心)
  */
 public final class JobScheduler {
     
     static {
+        //注册异常通知SPI服务
         ElasticJobServiceLoader.registerTypedService(JobErrorHandlerPropertiesValidator.class);
     }
     
     private static final String JOB_EXECUTOR_DATA_MAP_KEY = "jobExecutor";
-    
+
+    /**
+     * 注册中心,zookeeper
+     */
     @Getter
     private final CoordinatorRegistryCenter regCenter;
-    
+
+    /**
+     * 任务配置
+     */
     @Getter
     private final JobConfiguration jobConfig;
-    
+
+    /**
+     * ???
+     */
     private final SetUpFacade setUpFacade;
-    
+
+    /**
+     * ???
+     */
     private final SchedulerFacade schedulerFacade;
-    
+
+    /**
+     * ???
+     */
     private final LiteJobFacade jobFacade;
     
     private final ElasticJobExecutor jobExecutor;
