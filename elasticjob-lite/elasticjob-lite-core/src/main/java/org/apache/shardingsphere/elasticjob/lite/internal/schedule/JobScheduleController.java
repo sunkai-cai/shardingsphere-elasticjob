@@ -37,6 +37,9 @@ import org.quartz.TriggerKey;
 @RequiredArgsConstructor
 public final class JobScheduleController {
 
+    /**
+     * ？？？
+     */
     private final Scheduler scheduler;
 
     private final JobDetail jobDetail;
@@ -139,6 +142,7 @@ public final class JobScheduleController {
 
     /**
      * Trigger job.
+     * 处罚执行任务
      */
     public synchronized void triggerJob() {
         try {

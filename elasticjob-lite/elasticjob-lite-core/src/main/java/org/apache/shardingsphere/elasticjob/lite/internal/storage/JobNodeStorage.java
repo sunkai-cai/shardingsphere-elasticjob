@@ -33,6 +33,7 @@ import java.util.List;
 
 /**
  * Job node storage.
+ * 任务节点
  */
 public final class JobNodeStorage {
     
@@ -201,6 +202,7 @@ public final class JobNodeStorage {
     
     /**
      * Execute in leader server.
+     * 选举
      * 
      * @param latchNode node for leader latch
      * @param callback execute callback
@@ -240,6 +242,7 @@ public final class JobNodeStorage {
     
     /**
      * Add data listener.
+     * 增加一个监听
      * 
      * @param listener data listener
      */

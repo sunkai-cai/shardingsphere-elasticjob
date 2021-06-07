@@ -33,11 +33,20 @@ import java.util.Collection;
  * Set up facade.
  */
 public final class SetUpFacade {
-    
+
+    /**
+     * 配置服务
+     */
     private final ConfigurationService configService;
-    
+
+    /**
+     * 选举服务
+     */
     private final LeaderService leaderService;
-    
+
+    /**
+     * 作业服务
+     */
     private final ServerService serverService;
     
     private final InstanceService instanceService;

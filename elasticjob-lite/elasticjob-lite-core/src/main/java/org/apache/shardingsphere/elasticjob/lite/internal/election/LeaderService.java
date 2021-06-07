@@ -28,6 +28,7 @@ import org.apache.shardingsphere.elasticjob.infra.concurrent.BlockUtils;
 
 /**
  * Leader service.
+ * 主节点 服务
  */
 @Slf4j
 public final class LeaderService {
@@ -46,6 +47,7 @@ public final class LeaderService {
     
     /**
      * Elect leader.
+     * 选举
      */
     public void electLeader() {
         log.debug("Elect a new leader now.");

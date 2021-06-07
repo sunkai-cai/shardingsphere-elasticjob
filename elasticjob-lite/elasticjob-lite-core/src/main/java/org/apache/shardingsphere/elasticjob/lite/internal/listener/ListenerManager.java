@@ -33,23 +33,42 @@ import java.util.Collection;
 
 /**
  * Listener manager facade.
+ * 监听管理门面
  */
 public final class ListenerManager {
     
     private final JobNodeStorage jobNodeStorage;
-    
+
+    /**
+     * 选举监听
+     */
     private final ElectionListenerManager electionListenerManager;
-    
+
+    /**
+     * 分片监听
+     */
     private final ShardingListenerManager shardingListenerManager;
-    
+
+    /**
+     * 失败监听
+     */
     private final FailoverListenerManager failoverListenerManager;
     
     private final MonitorExecutionListenerManager monitorExecutionListenerManager;
-    
+
+    /**
+     * 关闭监听
+     */
     private final ShutdownListenerManager shutdownListenerManager;
-    
+
+    /**
+     * 执行命令监听
+     */
     private final TriggerListenerManager triggerListenerManager;
-    
+
+    /**
+     * 变化监听
+     */
     private final RescheduleListenerManager rescheduleListenerManager;
 
     private final GuaranteeListenerManager guaranteeListenerManager;

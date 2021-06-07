@@ -24,6 +24,7 @@ import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
 
 /**
  * Job trigger listener manager.
+ * 任务 调用监听
  */
 public final class TriggerListenerManager extends AbstractListenerManager {
     
