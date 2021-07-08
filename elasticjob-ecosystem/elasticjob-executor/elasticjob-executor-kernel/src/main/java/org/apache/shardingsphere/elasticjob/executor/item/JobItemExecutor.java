@@ -24,6 +24,7 @@ import org.apache.shardingsphere.elasticjob.executor.JobFacade;
 
 /**
  * Job item executor.
+ * 任务执行服务
  * 
  * @param <T> type of ElasticJob
  */

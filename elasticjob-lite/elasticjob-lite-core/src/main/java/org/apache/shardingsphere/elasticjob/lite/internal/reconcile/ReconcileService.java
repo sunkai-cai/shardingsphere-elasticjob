@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Reconcile service.
+ * 修复作业服务器不一致状态服务 - 调度间隔分钟
  */
 @Slf4j
 public final class ReconcileService extends AbstractScheduledService {

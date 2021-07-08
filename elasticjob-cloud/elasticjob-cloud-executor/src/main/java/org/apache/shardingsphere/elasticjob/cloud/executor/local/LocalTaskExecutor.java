@@ -33,6 +33,7 @@ import java.util.Map;
 
 /**
  * Local task executor.
+ * 本地触发执行
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class LocalTaskExecutor {

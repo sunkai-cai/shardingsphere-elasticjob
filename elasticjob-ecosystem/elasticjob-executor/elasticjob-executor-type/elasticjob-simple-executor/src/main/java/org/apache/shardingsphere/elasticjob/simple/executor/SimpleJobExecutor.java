@@ -25,6 +25,8 @@ import org.apache.shardingsphere.elasticjob.executor.item.impl.ClassedJobItemExe
 
 /**
  * Simple job executor.
+ * 简单任务执行类(SPI)
+ *
  */
 public final class SimpleJobExecutor implements ClassedJobItemExecutor<SimpleJob> {
     

@@ -56,7 +56,7 @@ public final class ElasticJobExecutor {
     private final JobFacade jobFacade;
 
     /**
-     * ???
+     * 任务执行器
      */
     private final JobItemExecutor jobItemExecutor;
 
@@ -75,6 +75,7 @@ public final class ElasticJobExecutor {
         this(elasticJob, jobConfig, jobFacade, JobItemExecutorFactory.getExecutor(elasticJob.getClass()));
     }
 
+    //无elasticJob的支持方案
     public ElasticJobExecutor(final String type, final JobConfiguration jobConfig, final JobFacade jobFacade) {
         this(null, jobConfig, jobFacade, JobItemExecutorFactory.getExecutor(type));
     }
@@ -227,6 +228,7 @@ public final class ElasticJobExecutor {
         log.trace("Job '{}' executing, item is: '{}'.", jobConfig.getJobName(), item);
         JobExecutionEvent completeEvent;
         try {
+            //通过任务执行器执行elasticJob
             jobItemExecutor.process(elasticJob, jobConfig, jobFacade, shardingContexts.createShardingContext(item));
             completeEvent = startEvent.executionSuccess();
             log.trace("Job '{}' executed, item is: '{}'.", jobConfig.getJobName(), item);

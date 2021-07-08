@@ -22,6 +22,7 @@ import org.apache.shardingsphere.elasticjob.executor.item.JobItemExecutor;
 
 /**
  * Classed job item executor.
+ * SPI 加载模式
  * 
  * @param <T> type of ElasticJob
  */

@@ -26,6 +26,7 @@ import java.util.Map;
 
 /**
  * ElasticJob properties.
+ * ElasticJob 的配置, 加载了配置文件的 elasticjob.jobs 配置
  */
 @Getter
 @Setter

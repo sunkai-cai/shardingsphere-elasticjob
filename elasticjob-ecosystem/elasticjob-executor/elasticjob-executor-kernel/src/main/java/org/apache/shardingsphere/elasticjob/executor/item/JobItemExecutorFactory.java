@@ -32,6 +32,7 @@ import java.util.ServiceLoader;
 
 /**
  * Job item executor factory.
+ * 任务执行实例工厂
  */
 @SuppressWarnings("rawtypes")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -40,7 +41,9 @@ public final class JobItemExecutorFactory {
     private static final Map<Class, ClassedJobItemExecutor> CLASSED_EXECUTORS = new HashMap<>();
     
     static {
+        //???
         ElasticJobServiceLoader.registerTypedService(TypedJobItemExecutor.class);
+        //遍历SPI中的所有 ClassedJobItemExecutor 的类,并记录到 CLASSED_EXECUTORS
         ServiceLoader.load(ClassedJobItemExecutor.class).forEach(each -> CLASSED_EXECUTORS.put(each.getElasticJobClass(), each));
     }
     
@@ -53,6 +56,7 @@ public final class JobItemExecutorFactory {
     @SuppressWarnings("unchecked")
     public static JobItemExecutor getExecutor(final Class<? extends ElasticJob> elasticJobClass) {
         for (Entry<Class, ClassedJobItemExecutor> entry : CLASSED_EXECUTORS.entrySet()) {
+            //找到对应的 ClassedJobItemExecutor
             if (entry.getKey().isAssignableFrom(elasticJobClass)) {
                 return entry.getValue();
             }

@@ -28,6 +28,7 @@ import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
 /**
  * Schedule job bootstrap.
  * 调度任务引导类(入口)
+ * 注：每个 Job 都会使用一个 ScheduleJobBootstrap 对象去管理
  * new ScheduleJobBootstrap(..).schedule();
  */
 public final class ScheduleJobBootstrap implements JobBootstrap {

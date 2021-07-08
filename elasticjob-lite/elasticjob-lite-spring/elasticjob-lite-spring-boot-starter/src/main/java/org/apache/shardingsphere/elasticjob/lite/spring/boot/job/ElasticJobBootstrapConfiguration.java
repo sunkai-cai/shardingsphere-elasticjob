@@ -72,8 +72,11 @@ public class ElasticJobBootstrapConfiguration implements ApplicationContextAware
     
     private void constructJobBootstraps(final ElasticJobProperties elasticJobProperties, final SingletonBeanRegistry singletonBeanRegistry,
                                         final CoordinatorRegistryCenter registryCenter, final TracingConfiguration<?> tracingConfig) {
+        //激活在配置文件中登记的 ElasticJob
         for (Map.Entry<String, ElasticJobConfigurationProperties> entry : elasticJobProperties.getJobs().entrySet()) {
+            //获取任务配置
             ElasticJobConfigurationProperties jobConfigurationProperties = entry.getValue();
+            //检查配置
             Preconditions.checkArgument(null != jobConfigurationProperties.getElasticJobClass()
                             || !Strings.isNullOrEmpty(jobConfigurationProperties.getElasticJobType()),
                     "Please specific [elasticJobClass] or [elasticJobType] under job configuration.");
@@ -81,8 +84,10 @@ public class ElasticJobBootstrapConfiguration implements ApplicationContextAware
                             || Strings.isNullOrEmpty(jobConfigurationProperties.getElasticJobType()),
                     "[elasticJobClass] and [elasticJobType] are mutually exclusive.");
             if (null != jobConfigurationProperties.getElasticJobClass()) {
+                //注册任务类
                 registerClassedJob(entry.getKey(), entry.getValue().getJobBootstrapBeanName(), singletonBeanRegistry, registryCenter, tracingConfig, jobConfigurationProperties);
             } else if (!Strings.isNullOrEmpty(jobConfigurationProperties.getElasticJobType())) {
+                //注册任务类
                 registerTypedJob(entry.getKey(), entry.getValue().getJobBootstrapBeanName(), singletonBeanRegistry, registryCenter, tracingConfig, jobConfigurationProperties);
             }
         }
@@ -90,14 +95,19 @@ public class ElasticJobBootstrapConfiguration implements ApplicationContextAware
     
     private void registerClassedJob(final String jobName, final String jobBootstrapBeanName, final SingletonBeanRegistry singletonBeanRegistry, final CoordinatorRegistryCenter registryCenter,
                                     final TracingConfiguration<?> tracingConfig, final ElasticJobConfigurationProperties jobConfigurationProperties) {
+        //获取配置文件
         JobConfiguration jobConfig = jobConfigurationProperties.toJobConfiguration(jobName);
         Optional.ofNullable(tracingConfig).ifPresent(jobConfig.getExtraConfigurations()::add);
+        //获取elasticJob
+        //注：如果 elasticJob 使用了 
         ElasticJob elasticJob = applicationContext.getBean(jobConfigurationProperties.getElasticJobClass());
         if (Strings.isNullOrEmpty(jobConfig.getCron())) {
             Preconditions.checkArgument(!Strings.isNullOrEmpty(jobBootstrapBeanName), "The property [jobBootstrapBeanName] is required for One-off job.");
+            //注册单例???
             singletonBeanRegistry.registerSingleton(jobBootstrapBeanName, new OneOffJobBootstrap(registryCenter, elasticJob, jobConfig));
         } else {
             String beanName = !Strings.isNullOrEmpty(jobBootstrapBeanName) ? jobBootstrapBeanName : jobConfig.getJobName() + "ScheduleJobBootstrap";
+            //注册单例
             singletonBeanRegistry.registerSingleton(beanName, new ScheduleJobBootstrap(registryCenter, elasticJob, jobConfig));
         }
     }
@@ -108,9 +118,11 @@ public class ElasticJobBootstrapConfiguration implements ApplicationContextAware
         Optional.ofNullable(tracingConfig).ifPresent(jobConfig.getExtraConfigurations()::add);
         if (Strings.isNullOrEmpty(jobConfig.getCron())) {
             Preconditions.checkArgument(!Strings.isNullOrEmpty(jobBootstrapBeanName), "The property [jobBootstrapBeanName] is required for One-off job.");
+            //注册单例
             singletonBeanRegistry.registerSingleton(jobBootstrapBeanName, new OneOffJobBootstrap(registryCenter, jobConfigurationProperties.getElasticJobType(), jobConfig));
         } else {
             String beanName = !Strings.isNullOrEmpty(jobBootstrapBeanName) ? jobBootstrapBeanName : jobConfig.getJobName() + "ScheduleJobBootstrap";
+            //注册单例
             singletonBeanRegistry.registerSingleton(beanName, new ScheduleJobBootstrap(registryCenter, jobConfigurationProperties.getElasticJobType(), jobConfig));
         }
     }

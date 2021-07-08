@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 
 /**
  * Job scheduler.
- * 计划任务(核心)
+ * 计划任务(核心) 注册到 quartz
  */
 public final class JobScheduler {
     
