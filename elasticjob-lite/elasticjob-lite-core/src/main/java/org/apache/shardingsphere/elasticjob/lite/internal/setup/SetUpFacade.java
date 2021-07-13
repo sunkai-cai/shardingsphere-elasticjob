@@ -31,6 +31,7 @@ import java.util.Collection;
 
 /**
  * Set up facade.
+ * 启动门面
  */
 public final class SetUpFacade {
 
@@ -66,6 +67,7 @@ public final class SetUpFacade {
     
     /**
      * Set up job configuration.
+     * 设置任务配置
      *
      * @param jobClassName job class name
      * @param jobConfig job configuration to be updated

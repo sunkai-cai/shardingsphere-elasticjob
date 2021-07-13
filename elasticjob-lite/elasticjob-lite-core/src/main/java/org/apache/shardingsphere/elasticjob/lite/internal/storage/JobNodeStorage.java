@@ -163,6 +163,7 @@ public final class JobNodeStorage {
     
     /**
      * Replace data.
+     * 刷新数据
      * 
      * @param node node
      * @param value to be replaced data

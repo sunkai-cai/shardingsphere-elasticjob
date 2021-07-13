@@ -42,6 +42,7 @@ public final class ConfigurationService {
     
     /**
      * Load job configuration.
+     * 读取任务配置
      * 
      * @param fromCache load from cache or not
      * @return job configuration
@@ -61,6 +62,10 @@ public final class ConfigurationService {
     
     /**
      * Set up job configuration.
+     * 配置任务节点
+     * 若注册中心没有该任务配置，则将任务配置推送到注册中心
+     * 若注册中心没有该任务配置,且任务配置为覆盖，则将任务配置推送到注册中心
+     * 若若注册中心没有该任务配置,且任务配置为不覆盖, 则拉取注册中心配置，覆盖本地配置
      * 
      * @param jobClassName job class name
      * @param jobConfig job configuration to be updated
@@ -69,6 +74,7 @@ public final class ConfigurationService {
     public JobConfiguration setUpJobConfiguration(final String jobClassName, final JobConfiguration jobConfig) {
         checkConflictJob(jobClassName, jobConfig);
         if (!jobNodeStorage.isJobNodeExisted(ConfigurationNode.ROOT) || jobConfig.isOverwrite()) {
+            //任务被更新覆盖
             jobNodeStorage.replaceJobNode(ConfigurationNode.ROOT, YamlEngine.marshal(JobConfigurationPOJO.fromJobConfiguration(jobConfig)));
             jobNodeStorage.replaceJobRootNode(jobClassName);
             return jobConfig;
