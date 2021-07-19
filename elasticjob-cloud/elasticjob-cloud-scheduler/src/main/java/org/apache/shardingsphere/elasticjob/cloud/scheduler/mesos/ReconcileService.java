@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 
 /**
  * Reconcile service.
+ * 使用了 google Guava 的 AbstractScheduledService 实现周期调用
  */
 @RequiredArgsConstructor
 @Slf4j
@@ -46,7 +47,10 @@ public class ReconcileService extends AbstractScheduledService {
     private final FacadeService facadeService;
     
     private final ReentrantLock lock = new ReentrantLock();
-    
+
+    /**
+     * 周期任务的具体逻辑实现
+     */
     @Override
     protected void runOneIteration() {
         lock.lock();
@@ -92,9 +96,14 @@ public class ReconcileService extends AbstractScheduledService {
             lock.unlock();
         }
     }
-    
+
+    /**
+     *
+     * @return 返回周期配置
+     */
     @Override
     protected Scheduler scheduler() {
+        //读取配置，默认10分钟
         FrameworkConfiguration configuration = BootstrapEnvironment.getINSTANCE().getFrameworkConfiguration();
         return Scheduler.newFixedDelaySchedule(configuration.getReconcileIntervalMinutes(), configuration.getReconcileIntervalMinutes(), TimeUnit.MINUTES);
     }

@@ -61,6 +61,7 @@ public final class SetUpFacade {
         leaderService = new LeaderService(regCenter, jobName);
         serverService = new ServerService(regCenter, jobName);
         instanceService = new InstanceService(regCenter, jobName);
+        //注册:修复服务
         reconcileService = new ReconcileService(regCenter, jobName);
         listenerManager = new ListenerManager(regCenter, jobName, elasticJobListeners);
     }

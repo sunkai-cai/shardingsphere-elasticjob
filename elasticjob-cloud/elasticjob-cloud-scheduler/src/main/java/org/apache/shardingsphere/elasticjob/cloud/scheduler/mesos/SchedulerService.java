@@ -115,7 +115,11 @@ public final class SchedulerService {
                     schedulerDriver.declineOffer(lease.getOffer().getId());
                 }).build();
     }
-    
+
+    /**
+     * 获取任务事件跟踪总线
+     * @return
+     */
     private JobTracingEventBus getJobTracingEventBus() {
         Optional<TracingConfiguration<?>> tracingConfiguration = env.getTracingConfiguration();
         return tracingConfiguration.map(JobTracingEventBus::new).orElseGet(JobTracingEventBus::new);
