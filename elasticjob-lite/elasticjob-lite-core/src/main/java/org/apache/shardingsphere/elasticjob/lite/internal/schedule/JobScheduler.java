@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
 
 /**
  * Job scheduler.
- * 计划任务(核心) 注册到 quartz
+ * 计划任务(核心)(入口) 注册到 quartz
  */
 public final class JobScheduler {
     
@@ -87,10 +87,16 @@ public final class JobScheduler {
      */
     private final LiteJobFacade jobFacade;
     
+    /**
+     * 任务执行者
+     * ps: 重点关注
+     */
     private final ElasticJobExecutor jobExecutor;
 
     /**
-     * 任务调度控制器(核心)
+     * 任务调度控制器
+     *  注入 quartz 调度
+     * PS: 关注 createJobScheduleController()
      */
     @Getter
     private final JobScheduleController jobScheduleController;

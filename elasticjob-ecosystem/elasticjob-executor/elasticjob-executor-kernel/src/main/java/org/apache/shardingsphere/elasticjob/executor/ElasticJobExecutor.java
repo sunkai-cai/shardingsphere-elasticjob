@@ -46,7 +46,7 @@ import java.util.concurrent.ExecutorService;
 public final class ElasticJobExecutor {
 
     /**
-     * 任务类
+     * 任务对象
      */
     private final ElasticJob elasticJob;
 
